@@ -1,0 +1,151 @@
+
+<main>
+
+  <div class="alert alert-primary" role="alert" id="productos">
+    Producto/{{nombre_producto}}.
+  </div>
+
+  <div class="spinner-border" style="width: 3rem; height: 3rem;" *ngIf="preloader" role="status">
+    <span class="sr-only">Cargando...</span>
+  </div>
+
+
+  <div class="card mb-3 animate__animated animate__backInLeft">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <div id="CarouselTest" class="carousel slide" data-bs-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-bs-target="#CarouselTest" data-bs-slide-to="0" class="active" aria-current="true"
+              aria-label="Slide 1"></li>
+            <li data-bs-target="#CarouselTest" data-bs-slide-to="1" aria-label="Slide 2"></li>
+            <li data-bs-target="#CarouselTest" data-bs-slide-to="2" aria-label="Slide 3"></li>
+
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item active" id="imas">
+              <img class="d-block" src="{{url_imagen}}" alt="">
+            </div>
+            <div class="carousel-item" *ngFor="let imagen of imagenes" id="imas">
+              <img class="d-block" src="{{imagen.url_imagen}}" alt="">
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#CarouselTest" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#CarouselTest" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <form [formGroup]="carrito" (ngSubmit)="agregarCarrito()">
+          <div class="card-body">
+            <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+              <h1 class="display-6">{{nombre_producto}}</h1>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-2 mb-2 text-center" id="info-pago">
+
+              <div class="col">
+                <h1 class="card-title pricing-card-title">${{precio}}<small class="text-muted" *ngIf="!segunda_mano">/
+                    Nuevo</small><small class="text-muted" *ngIf="segunda_mano">/Usado</small></h1>
+
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <p class="card-text"><small class="text-muted">Marca: {{marca}}</small></p>
+
+              </div>
+
+              <div class="col">
+                <p class="card-text"><small class="text-muted">Pago y envío</small></p>
+                <h1 class="card-title pricing-card-title"> <i class="fas fa-credit-card"></i><small class="text-muted">
+                    /
+                    <i class="fas fa-truck-moving"></i></small></h1>
+                <p class="card-text"><small class="text-muted">Envío gratis arriba de $500</small></p>
+              </div>
+
+
+            </div>
+
+
+            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" id="combos">
+              <div class="col">
+                <select class="form-select"  formControlName="talla">
+                  <option value="Ninguna" disabled>Tallas disponibles</option>
+                  
+                </select>
+                <div class="invalid-feedback">
+                  Opción inválida.
+                </div>
+
+
+              </div>
+              <div class="col">
+                
+                <select class="form-select" formControlName="color">
+                  <option value="Indistinto" disabled>Colores disponibles</option>
+                  <option *ngFor="let color of Colores" value="{{color.color}}">{{color.color}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  Opción inválida.
+                </div>
+
+
+              </div>
+
+              <div class="col">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <button style="min-width: 2.5rem" (click)="cambiarValor(-1)"
+                      class="btn btn-decrement btn-outline-secondary btn-minus" type="button">
+                      <strong>−</strong>
+                    </button>
+                  </div>
+
+                  <input type="text" style="text-align: center" class="form-control" placeholder=""
+                    value="{{cantidad}}" formControlName="cantidad">
+
+                  <div class="input-group-append">
+                    <button style="min-width: 2.5rem" class="btn btn-increment btn-outline-secondary btn-plus"
+                      (click)="cambiarValor(+1)" type="button">
+                      <strong>+</strong>
+                    </button>
+                  </div>
+                </div>
+
+
+              </div>
+
+            </div>
+
+
+            <div class="row row-cols-1 row-cols-md-1 mb-1 text-center">
+              <div class="col">
+
+                <ol class="list-group list-group-horizontal">
+                  <li class="list-group-item list-group-item-warning" *ngFor="let caracteristica of caracteristicas">
+                    {{caracteristica.caracteristica}}</li>
+
+                </ol>
+              </div>
+              <div class="col">
+                <button type="submit" mat-raised-button color="accent" id="btn-adds">Añadir al carrito <i
+                    class="fas fa-shopping-cart" id="carro-btn" aria-hidden="true"></i></button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+</main>

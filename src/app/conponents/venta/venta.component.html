@@ -1,0 +1,281 @@
+<div class="alert alert-primary" role="alert" id="productos">
+  Mi compra.
+</div>
+<div class="spinner-border" style="width: 3rem; height: 3rem;" *ngIf="preloader" role="status">
+  <span class="sr-only">Cargando...</span>
+</div>
+<div class="container animate__animated animate__backInLeft" id="container-venta">
+  <main>
+    
+    <div class="py-5 text-center">
+
+    </div>
+
+    <div class="row g-5">
+      <div class="col-md-5 col-lg-4 order-md-last">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-primary">Tu compra</span>
+          <span class="badge bg-primary rounded-pill">{{cantidad_carrito}}</span>
+        </h4>
+        <ul class="list-group mb-3">
+
+
+          <li class="list-group-item d-flex justify-content-between bg-light" *ngFor="let pedido of pedidos">
+            <div class="text-success">
+              <h6 class="my-0">{{pedido.nombre_producto}}</h6>
+              <span class="text-success">${{pedido.precio}}</span>
+              <div class="btn-closed">
+                <button type="button" class="btn-close" (click)="borrarPedido(pedido.uid)" aria-label="Close"></button>
+              </div> 
+              <div class="row row-cols-1 row-cols-md-2 mb-2 ">
+                <div class="col">
+                  
+                  <small>color: {{pedido.color}}</small><br>
+                  <small>talla: {{pedido.talla}}</small><br>
+                  <small>cantidad: {{pedido.cantidad}}</small><br>
+                  <small>sub_total: ${{pedido.cantidad*pedido.precio}}</small>
+
+                  
+                </div>
+                  <div class="col">
+                                       
+                    <img src="{{pedido.url_imagen}}" class="img-2" width="80px" height="80px">
+                    
+                  </div>
+                  
+              </div>
+            </div>
+            
+            
+          </li>
+         
+          <li class="list-group-item d-flex justify-content-between" id="envios_gratis">
+           
+            <span *ngIf="envios" class="gratis">Envío gratis</span>
+            <span *ngIf="!envios" class="gratis">+Envío $100</span>
+            
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Total (MXN)</span>
+            <strong>${{total}}</strong>
+          </li>
+          
+
+        </ul>
+
+
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Código de promoción">
+          <button type="button" class="btn btn-secondary">Validar</button>
+        </div>
+
+      </div>
+      <div class="col-md-7 col-lg-8">
+        <form [formGroup]="compra" (ngSubmit)="onRegister()">
+        <h4 class="mb-3">Finaliza tu compra</h4>
+
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <mat-label>Nombre(s)</mat-label>
+              <input matInput formControlName="nombre">
+            </mat-form-field>
+            <div *ngIf="campoNoValido('nombre')" class="floatingInputInvalid">
+              El nombre es requerido.
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+
+            <mat-form-field class="example-full-width">
+              <mat-label>Apellidos</mat-label>
+              <input matInput formControlName="apellidos">
+            </mat-form-field>
+            <div class="floatingInputInvalid" *ngIf="campoNoValido('apellidos')">
+              El apellido es requerido.
+            </div>
+          </div>
+
+         
+
+          <div class="col-12">
+
+            <mat-form-field class="example-full-width" [style.width.px]=300>
+              <mat-label>Email</mat-label>
+              <input type="email" matInput  formControlName="email" placeholder="Ex. pat@example.com">
+            </mat-form-field>
+            <div class="floatingInputInvalid" *ngIf="campoNoValido('email')">
+              El email es requerido.
+            </div>
+          </div>
+
+          <div class="col-12">
+
+            <mat-form-field class="example-full-width" [style.width.px]=300>
+              <mat-label>Dirección de entrega</mat-label>
+              <textarea matInput formControlName="direccion" placeholder="Ex. 100 Main St"></textarea>
+            </mat-form-field>
+            <div class="floatingInputInvalid" *ngIf="campoNoValido('direccion')">
+              La dirección de entrega es requerida.
+            </div>
+                        
+          </div>
+
+          <div class="col-12">
+            <mat-form-field class="example-full-width" [style.width.px]=300>
+              <mat-label>Referencias</mat-label>
+              <textarea matInput formControlName="referencias" placeholder="Ex. Puerta Negra"></textarea>
+            </mat-form-field>
+            <div class="floatingInputInvalid" *ngIf="campoNoValido('referencias')">
+              La referencia es requerida.
+            </div>
+          </div>
+
+          <div class="col-12">
+            <mat-form-field class="example-full-width">
+              <mat-label>Celular</mat-label>
+              <span matPrefix>+52 &nbsp;</span>
+              <input type="tel" (keypress)="validateFormat($event)" formControlName="telefono" matInput placeholder="555-555-1234">
+              <mat-icon matSuffix>mode_edit</mat-icon>
+            </mat-form-field>
+            <div class="floatingInputInvalid" *ngIf="campoNoValido('telefono')">
+              El número telefónico es requerido.
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <label for="country" class="form-label">País</label>
+            <select class="form-select" id="country" formControlName="pais" required>
+              <option value="Ninguno">Elija una opción</option>
+              <option>México</option>
+            </select>
+            <div class="floatingInputInvalid" *ngIf="campoNoValido('pais')">
+              El pais es requerido.
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <label for="country" class="form-label">Estado</label>
+            <select class="form-select" id="estado" formControlName="estado" required>
+              <option value="Ninguno">Elija una opción</option>
+              <option>Ciudad de México</option>
+            </select>
+            <div class="floatingInputInvalid" *ngIf="campoNoValido('estado')">
+              El estado es requerido.
+            </div>
+          </div>
+
+          
+
+          <div class="col-md-3">
+            <mat-form-field class="example-full-width">
+              <mat-label>Código postal</mat-label>
+              <input matInput #postalCode  placeholder="Ex. 94105" (keypress)="validateFormat($event)" formControlName="postal">
+              <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
+            </mat-form-field>
+            <div class="floatingInputInvalid" *ngIf="campoNoValido('postal')">
+              El código postal es requerido.
+            </div>
+          </div>
+        </div>
+        
+        <hr class="my-4">
+
+        <h4 class="mb-3">Pago</h4>
+
+        <div class="my-3">
+          <div class="form-check">
+            <input id="credit"  type="radio" class="form-check-input" value="card" formControlName="forma_pago" checked required>
+            <label class="form-check-label" for="credit">Crédito</label>
+          </div>
+          <div class="form-check">
+            <input id="debit"  type="radio" class="form-check-input" value="card_debit" formControlName="forma_pago" required>
+            <label class="form-check-label" for="debit">Debito</label>
+          </div>
+          
+        </div>
+
+        <div class="row gy-3">
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <mat-label>Nombre en la tarjeta</mat-label>
+              <input matInput (keypress)="validateLetra($event)" id="ccname" placeholder="Escriba el nombre del titular de la tarjeta"  formControlName="nombre_tarjeta" #ccname>
+            </mat-form-field>
+            <div class="floatingInputInvalid" *ngIf="campoNoValido('nombre_tarjeta')">
+              El nombre en la tarjeta es obligatorio.
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <mat-label>Número de tarjeta</mat-label>
+              <input matInput #ccnumber id="ccnumber" placeholder="Ex. 424242424242424242" (keypress)="validateFormat($event)" formControlName="numero_tarjeta">
+              <mat-hint align="end">{{ccnumber.value.length}} / 16</mat-hint>
+            </mat-form-field>
+            <div class="floatingInputInvalid" *ngIf="campoNoValido('numero_tarjeta')">
+              El número de tarjeta es requerido.
+            </div>
+          </div>
+
+          <div class="col-md-4" id="ven_div">
+            <label for="cc-expiration" class="form-label">Vencimiento</label>
+            <div class="row row-cols-2 row-cols-md-2 mb-2">
+              <div class="col">
+                <mat-form-field class="example-full-width" [style.width.px]=70>
+                  <mat-label>Mes</mat-label>
+                  <input matInput (keypress)="validateFormat($event)" placeholder="mm" id="ccmm"  formControlName="mm" #ccmm>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field class="example-full-width" [style.width.px]=70>
+                  <mat-label>Año</mat-label>
+                  <input matInput (keypress)="validateFormat($event)" placeholder="aa"  formControlName="aa" id="ccaa" #ccaa>
+                </mat-form-field>
+              </div> 
+            
+            </div>
+            <div class="floatingInputInvalid" *ngIf="campoNoValido('mm')">
+              La fecha de vencimiento es requerida.
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <label for="cc-cvv" class="form-label" >CVV</label>
+            <mat-form-field class="example-full-width">
+              <mat-label>CVV</mat-label>
+              <input matInput (keypress)="validateFormat($event)"   formControlName="cvv" id="cccvv" #cccvv>
+            </mat-form-field>
+            <div class="floatingInputInvalid" *ngIf="campoNoValido('cvv')">
+              El código de seguridad es obligatorio.
+            </div>
+          </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 mb-2" id="terminos">
+          <div class="col">
+           
+          <input id="checkbox-signup" type="checkbox" formControlName="terminos" (change)="eventCheck($event.target)">
+          <label for="cc-cvv" class="form-label"><a (click)="condiciones()" class="terminosl">Acepto Terminos y condiciones</a></label>
+          </div>
+          <div class="col">
+            <div class="floatingInputInvalid" *ngIf="validarTerminos()">
+              Debe aceptar los terminos y condiciones.
+            </div>
+            
+          </div>          
+          
+        </div>
+         
+        <hr class="my-4">
+        <div class="spinner-border" style="width: 3rem; height: 3rem;" *ngIf="preloader2" role="status">
+          <span class="sr-only">Cargando...</span>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+        
+        <button mat-raised-button color="accent" id="boton-venta" type="submit">Comprar</button>
+        <a  class="link-secondary">Encuentra más productos...</a>
+      </form>
+      </div>
+    </div>
+  </main>
+</div> 

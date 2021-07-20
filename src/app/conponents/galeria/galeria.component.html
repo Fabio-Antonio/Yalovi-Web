@@ -1,0 +1,41 @@
+
+
+<main role="main">
+    
+    <div class="alert alert-primary" role="alert" id="productos">
+        Productos.
+      </div>                       
+      <div class="spinner-border" style="width: 3rem; height: 3rem;" *ngIf="preloader" role="status">
+        <span class="sr-only">Cargando...</span>
+      </div>
+      <div class="row row-cols-1 row-cols-md-4 mb-4 text-center animate__animated animate__backInLeft">
+       
+        <div class="col" *ngFor="let producto of productos">
+          <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3">
+              <img  class="my-0 fw-normal" src="{{producto.url_imagen}}"  width="210px" height="195px">
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">${{producto.precio}}</h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>{{producto.nombre_producto}}</li>
+                    <li *ngIf="producto.segunda_mano" id="segunda_mano_rojo">Usado</li>
+                    <li *ngIf="!producto.segunda_mano" id="segunda_mano_verde">Nuevo</li>
+              </ul>
+            </div>
+            <div class="card-footer">
+             
+              <button mat-raised-button color="accent" (click)="irProducto(producto.uid)">Ver más</button>
+
+
+            </div>
+          </div>
+        </div>
+               
+      </div>
+      
+      <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">No se encontraron más resultados</h1>
+    </div>
+
+</main>
