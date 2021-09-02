@@ -39,6 +39,22 @@
             </button>
           </div>
         </div>
+
+        <div class="row row-cols-3 row-cols-md-3 mb-3 text-center" id="img-disponibles">
+
+
+          <div class="col">
+            <img  src="{{url_imagen}}" alt="" height="60" width="60">
+
+          </div>
+         
+          <div class="col" *ngFor="let imagen of imagenes">
+            <img  src="{{imagen.url_imagen}}" alt="" height="60" width="60">
+            
+          </div>
+
+        </div>
+
       </div>
       <div class="col-md-8">
         <form [formGroup]="carrito" (ngSubmit)="agregarCarrito()">
@@ -146,6 +162,102 @@
   </div>
   
 
+  <div id="multi-item-example" class="carousel slide carousel-multi-item" data-bs-ride="carousel">
+
+    <!--Controls-->
+    <div class="controls-top">
+      <a class="btn-floating" href="#multi-item-example" data-bs-slide="prev"><i class="fa fa-chevron-left"></i></a>
+      <a class="btn-floating" href="#multi-item-example" data-bs-slide="next"><i class="fa fa-chevron-right"></i></a>
+    </div>
+    <!--/.Controls-->
+  
+    <!--Indicators-->
+    <ol class="carousel-indicators">
+      <li data-bs-target="#multi-item-example" data-bs-slide-to="0" class="active"></li>
+      <li data-bs-target="#multi-item-example" data-bs-slide-to="1"></li>
+      <li data-bs-target="#multi-item-example" data-bs-slide-to="2"></li>
+    </ol>
+    <!--/.Indicators-->
+  
+    <!--Slides-->
+    <div class="carousel-inner" role="listbox">
+  
+      <!--First slide-->
+      <div class="carousel-item active">
+  
+        <div class="row">
+          <div class="row row-cols-4 row-cols-md-4 mb-4 text-center">
+          <div class="col" *ngFor="let producto of productos1">
+           
+            <div class="card mb-4 rounded-3 shadow-sm" id="card_main">
+              <div class="card-header py-3">
+                <img  class="my-0 fw-normal" src="{{producto.url_imagen}}"  width="210px" height="195px">
+              </div>
+              <div class="card-body">
+                <h1 class="card-title pricing-card-title">${{producto.precio}}</h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                  <li>{{producto.nombre_producto}}</li>
+                  <li *ngIf="producto.segunda_mano" id="segunda_mano_rojo">Usado</li>
+                  <li *ngIf="!producto.segunda_mano" id="segunda_mano_verde">Nuevo</li>
+                </ul>
+                
+              </div>
+              <div class="card-footer">
+                <button mat-raised-button color="accent" (click)="irProducto(producto.uid)"
+                 >Ver más</button>
+              </div>
+            </div>
+          </div>
+         
+         
+
+          </div>
+        </div>
+      
+      </div>
+      <!--/.First slide-->
+  
+      <!--Second slide-->
+      <div class="carousel-item">
+  
+        <div class="row">
+          <div class="row row-cols-4 row-cols-md-4 mb-4 text-center">
+  
+            <div class="col" *ngFor="let productos of productos2">
+                <div class="card mb-4 rounded-3 shadow-sm" id="card_main">
+                  <div class="card-header py-3">
+                    <img  class="my-0 fw-normal" src="{{productos.url_imagen}}" >
+                  </div>
+                  <div class="card-body">
+                    <h1 class="card-title pricing-card-title">${{productos.precio}}</h1>
+                    <ul class="list-unstyled mt-3 mb-4">
+                      <li>{{productos.nombre_producto}}</li>
+                      <li *ngIf="productos.segunda_mano" id="segunda_mano_rojo">Usado</li>
+                  <li *ngIf="!productos.segunda_mano" id="segunda_mano_verde">Nuevo</li>
+                    </ul>                      
+                  </div>
+                  <div class="card-footer">
+                    <button mat-raised-button color="accent" (click)="irProducto(productos.uid)" >Ver más</button>
+                  </div>
+                  
+                </div>
+              </div>
+                              
+                
+          </div>
+          
+        </div>
+  
+      </div>
+      <!--/.Second slide-->
+  
+      <!--Third slide-->
+      
+  
+    </div>
+    <!--/.Slides-->
+  
+  </div>
 
 
 </main>

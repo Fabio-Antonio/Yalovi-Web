@@ -6,16 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cuerpo.component.css']
 })
 export class CuerpoComponent implements OnInit {
-  public valor1: number=0;
   constructor() { }
 
   ngOnInit(): void {
      
   }
 
-  get Valor(){
-     return this.valor1;
-  }
+  
 
   onActivate(event) {
     window.scroll(0,0);

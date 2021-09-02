@@ -155,20 +155,20 @@
 
 
 
-    <div id="multi-item-example" class="carousel slide carousel-multi-item" data-bs-ride="carousel">
+    <div id="multi-item-examples" class="carousel slide carousel-multi-item" data-bs-ride="carousel">
 
       <!--Controls-->
       <div class="controls-top">
-        <a class="btn-floating" href="#multi-item-example" data-bs-slide="prev"><i class="fa fa-chevron-left"></i></a>
-        <a class="btn-floating" href="#multi-item-example" data-bs-slide="next"><i class="fa fa-chevron-right"></i></a>
+        <a class="btn-floating" href="#multi-item-examples" data-bs-slide="prev"><i class="fa fa-chevron-left"></i></a>
+        <a class="btn-floating" href="#multi-item-examples" data-bs-slide="next"><i class="fa fa-chevron-right"></i></a>
       </div>
       <!--/.Controls-->
     
       <!--Indicators-->
       <ol class="carousel-indicators">
-        <li data-bs-target="#multi-item-example" data-bs-slide-to="0" class="active"></li>
-        <li data-bs-target="#multi-item-example" data-bs-slide-to="1"></li>
-        <li data-bs-target="#multi-item-example" data-bs-slide-to="2"></li>
+        <li data-bs-target="#multi-item-examples" data-bs-slide-to="0" class="active"></li>
+        <li data-bs-target="#multi-item-examples" data-bs-slide-to="1"></li>
+        <li data-bs-target="#multi-item-examples" data-bs-slide-to="2"></li>
       </ol>
       <!--/.Indicators-->
     
@@ -180,7 +180,7 @@
     
           <div class="row">
             <div class="row row-cols-4 row-cols-md-4 mb-4 text-center">
-            <div class="col" *ngFor="let producto of productos1">
+            <div class="col" *ngFor="let producto of productos3">
              
               <div class="card mb-4 rounded-3 shadow-sm" id="card_main">
                 <div class="card-header py-3">
@@ -215,7 +215,7 @@
           <div class="row">
             <div class="row row-cols-4 row-cols-md-4 mb-4 text-center">
     
-              <div class="col" *ngFor="let productos of productos2">
+              <div class="col" *ngFor="let productos of productos4">
                   <div class="card mb-4 rounded-3 shadow-sm" id="card_main">
                     <div class="card-header py-3">
                       <img  class="my-0 fw-normal" src="{{productos.url_imagen}}"  width="210px" height="195px">

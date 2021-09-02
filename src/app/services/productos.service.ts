@@ -67,6 +67,67 @@ getProductos2(){
 }
 
 
+
+
+getProductosMarca(marca:string){
+
+  return this.http.get<cargarProductos>(`${base_url}/carrusel_principal/${marca}`).pipe(
+   
+    map( resp => {
+      
+      const productos1 = resp.productos1.filter(resp => resp != null)
+      .map(
+        p1 => new Producto(p1.uid,p1.sub_categoria,p1.nombre_producto,p1.precio,p1.marca,p1.url_imagen,p1.segunda_mano,p1.descuento)
+      )
+
+      const productos2 = resp.productos2.filter(resp => resp != null)
+      .map(
+        p2 => new Producto(p2.uid,p2.sub_categoria,p2.nombre_producto,p2.precio,p2.marca,p2.url_imagen,p2.segunda_mano,p2.descuento)
+      )
+      
+      ;
+      return {
+        productos1,
+        productos2
+      }
+    })
+  )
+
+
+
+}
+
+
+getMasBuscados(){
+
+  return this.http.get<cargarProductos>(`${base_url}/pedidos`).pipe(
+    map( resp => {
+      const productos1 = resp.productos1.filter(resp => resp != null)
+      .map(
+        p1 => new Producto(p1.uid,p1.sub_categoria,p1.nombre_producto,p1.precio,p1.marca,p1.url_imagen,p1.segunda_mano,p1.descuento)
+      )
+
+      const productos2 = resp.productos2.filter(resp => resp != null)
+      .map(
+        p2 => new Producto(p2.uid,p2.sub_categoria,p2.nombre_producto,p2.precio,p2.marca,p2.url_imagen,p2.segunda_mano,p2.descuento)
+      )
+      
+      ;
+      return {
+        productos1,
+        productos2
+      }
+    })
+  )
+
+
+
+}
+
+
+
+
+
 getProductosSub(uid:string){
    
   return this.http.get<cargarProductos>(`${base_url}/buscar/${uid}`).pipe(

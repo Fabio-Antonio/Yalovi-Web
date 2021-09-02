@@ -13,6 +13,8 @@ import { ProductosService } from 'src/app/services/productos.service';
 export class PrincipalComponent implements OnInit {
 productos1 : Producto []= [];
 productos2 : Producto []= [];
+productos3 : Producto []=[];
+productos4 : Producto []=[];
 preloader: boolean= true;
 
 
@@ -21,6 +23,7 @@ preloader: boolean= true;
   ngOnInit(): void {
     this.getProductos();
     this.getProductos2();
+    this.getMasBuscados();
   }
 
 
@@ -36,8 +39,18 @@ preloader: boolean= true;
     this.productoService.getProductos2()
     .subscribe(({productos2})=>{
       this.productos2 = productos2;
-      this.preloader= false;
+      
     })
+  }
+
+  getMasBuscados(){
+  this.productoService.getMasBuscados()
+  .subscribe(({productos1,productos2})=>{
+    this.productos3=productos1;
+    this.productos4=productos2;
+    this.preloader= false;
+  })
+
   }
 
   irProducto(uid:string){

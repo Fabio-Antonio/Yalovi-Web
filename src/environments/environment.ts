@@ -15,7 +15,7 @@ export const environment = {
     measurementId: "G-WWNN8THLHZ"
   },
 
-  base_url:'http://192.168.1.50.:3000/api'
+  base_url:'http://192.168.1.50:3000/api'
 
 };
 

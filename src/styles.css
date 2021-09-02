@@ -40,9 +40,10 @@ h5{
 
  #imas {
   position: relative !important;
-  top: 0px !important;
-  left: 0px !important;
-  height: 25rem !important;
+  top: -28px !important;
+  left: 5px !important;
+  height: 20rem !important;
+ 
 
 }
 .col-md-4{
@@ -84,8 +85,14 @@ h5{
 
 }
 img{
-  border: 1px solid #DBD8D8 !important;
+  border: 1px solid #Ff9f00 !important;
   opacity: 1 !important;
+}
+
+#img-disponibles{
+  margin-left: 2rem;
+  margin-top: -45px;
+  margin-bottom: 10rem;
 }
 .card-header.py-3{
   border-radius: 40px;
@@ -99,9 +106,10 @@ img{
 }
 
 .card.mb-3{
+  width: 80%;
   margin-bottom: 40px !important;
   background: #F6F6F6 0% 0% no-repeat padding-box !important;
-
+  margin-left: 10%;
 border: 0px solid #DBD8D8 !important;
 
 opacity: 1 !important;
@@ -645,6 +653,13 @@ a{
     width: 250px;
      
     
+  }
+
+
+  #img-disponibles{
+    margin-bottom: 2rem !important;
+    margin-top: -50px !important;
+    margin-left: 10%!important;
   }
 
   #card_main{

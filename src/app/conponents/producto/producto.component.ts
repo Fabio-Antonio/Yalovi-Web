@@ -6,6 +6,7 @@ import { Color } from 'src/app/Models/color.model';
 import { Imagen } from 'src/app/Models/imagenes';
 import { Marca } from 'src/app/Models/marca.model';
 import { Producto } from 'src/app/Models/productos.model';
+import { ContadorService } from 'src/app/services/contador.service';
 import { MarcaService } from 'src/app/services/marca.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { ProductosService } from 'src/app/services/productos.service';
@@ -35,7 +36,8 @@ export class ProductoComponent implements OnInit {
   public carritoVal: number = 0;
   public preloader: boolean = true;
   public uid_producto_pedido: string = "";
-
+  public productos1 : Producto[]=[];
+  public productos2 : Producto[]=[];
 
 
   public carrito = this.fb.group({
@@ -54,7 +56,7 @@ export class ProductoComponent implements OnInit {
 
   constructor(private router: Router, private routeActivated: ActivatedRoute,
     private productoService: ProductosService, private marcaService: MarcaService,
-    private fb: FormBuilder, private pedidoService: PedidosService) { }
+    private fb: FormBuilder, private pedidoService: PedidosService, private contadorService: ContadorService) { }
 
   ngOnInit(
 
@@ -101,6 +103,7 @@ export class ProductoComponent implements OnInit {
       this.segunda_mano = this.pro.segunda_mano;
       this.producto = this.pro.uid;
       this.getMarca(pro.marca);
+      this.getProductosMarca(pro.marca);
 
       this.carrito.patchValue({
         precio: this.precio,
@@ -124,6 +127,16 @@ export class ProductoComponent implements OnInit {
     })
 
     this.preloader = false;
+  }
+
+
+  getProductosMarca(marca:string){
+
+    this.productoService.getProductosMarca(marca).subscribe(({productos1,productos2})=>{      
+      this.productos1=productos1;
+      this.productos2= productos2;
+
+    })
   }
 
   agregarCarrito() {
@@ -153,7 +166,7 @@ export class ProductoComponent implements OnInit {
         }).then((result) => {
           /* Read more about isConfirmed, isDenied below */
           if (result.isConfirmed) {
-            window.location.reload();
+               this.contadorService.contadorS.emit(Number(cantidad))
           }
         })
 
@@ -179,6 +192,10 @@ export class ProductoComponent implements OnInit {
       return localStorage.getItem("token");
     }
     return localStorage.getItem("token");
+  }
+
+  irProducto(uid:string){
+    window.location.href=`Producto/${uid}`;
   }
 
 

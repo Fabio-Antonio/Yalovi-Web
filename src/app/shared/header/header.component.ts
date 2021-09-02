@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ProductosService } from 'src/app/services/productos.service';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import { Producto } from 'src/app/Models/productos.model';
+import { ContadorService } from 'src/app/services/contador.service';
 
 
 @Component({
@@ -20,9 +21,9 @@ export class HeaderComponent implements OnInit {
  productos:Producto[]=[];
   parent = document.getElementById('show');
    
- @Input() valor: number=0;
+ valor: number=0;
  
- @Output () valorSalida : EventEmitter<number> = new EventEmitter();
+
 
  createFormGroup(){
   return new FormGroup({
@@ -35,10 +36,11 @@ buscar: FormGroup;
 
 
   constructor(private categoriasService : CategoriasService, private route: Router,
-     private productoServie: ProductosService,private render: Renderer2, private el: ElementRef) { }
+     private productoServie: ProductosService,private render: Renderer2, private el: ElementRef, private contadorService: ContadorService) { }
 
   ngOnInit(): void {
     this.buscar = this.createFormGroup();
+    this.ValorCarrito()
     this.cargarCategorias();
     this.render.setStyle(document.getElementById('show'), 'display', 'none');
     this.render.setStyle(document.getElementById('sub_cat'), 'display', 'none');
@@ -51,7 +53,7 @@ buscar: FormGroup;
     .subscribe(({categorias}) =>{
       this.categorias = categorias;
     })
-    this.valorSalida.emit(Number(localStorage.getItem("productos"))||0);
+    this.contadorService.contadorS.emit(Number(localStorage.getItem("productos"))||0);
   }
 
   getSubCategoria(uid:string){
@@ -84,6 +86,9 @@ buscar: FormGroup;
         this.productos=productos;
       });   
       this.render.setStyle(document.getElementById('show'), 'display', 'block');
+    }else if(event.which==8){
+      this.productos=[];
+      this.render.setStyle(document.getElementById('show'), 'display', 'none');
     }else{
       this.productos=[];
       this.render.setStyle(document.getElementById('show'), 'display', 'none');
@@ -100,5 +105,10 @@ buscar: FormGroup;
     
    }
 
+   ValorCarrito(){
+     this.contadorService.contadorS.subscribe(valor=>{
+       this.valor=valor;
+     })
+   }
 
 }

@@ -7,6 +7,7 @@ import {RegistroService} from 'src/app/services/registro.service';
 import {Observable} from 'rxjs';
 import Swal from 'sweetalert2';
 import { delay } from 'rxjs/operators';
+import { ContadorService } from 'src/app/services/contador.service';
 
 declare function tokenizador();
 @Component({
@@ -56,7 +57,7 @@ envios:boolean=true;
  
 @Input() tokenizar: string ="aqui va el token";
 
-constructor(private router:Router, private fb:FormBuilder, private pedidosServices : PedidosService, private ngZone : NgZone ) 
+constructor(private router:Router, private fb:FormBuilder, private pedidosServices : PedidosService, private ngZone : NgZone, private contadorService: ContadorService  ) 
 {
   
   
@@ -81,6 +82,8 @@ getPedidos(){
       window.location.href="";
      }else{
       localStorage.setItem("productos",cantidad.toString());
+      this.contadorService.contadorS.emit(Number(localStorage.getItem("productos"))||0);
+
      }
      
   })
