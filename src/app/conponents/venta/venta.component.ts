@@ -162,7 +162,12 @@ onRegister(){
     }
   })
  
-}, (err) =>  Swal.fire('Error', err.error.msg, 'error')) ;
+}, (err) =>  Swal.fire('Error', err.error.msg, 'error').then(values =>{
+  this.preloader2=false;
+  this.compra.patchValue({
+    terminos:false,
+  });
+})) ;
 
 }
 
