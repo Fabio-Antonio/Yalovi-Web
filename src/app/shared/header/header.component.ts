@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
 
  createFormGroup(){
   return new FormGroup({
-    search : new FormControl('',Validators.required),
+    search : new FormControl('',[Validators.required,Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ.,/ ]+$')]),
     
   })
 
@@ -81,11 +81,16 @@ buscar: FormGroup;
  buscar_rapido(event){  
 
     if(event.which===32&&this.buscar.controls.search.value!=""){
-      this.productoServie.getProductosReg(this.buscar.controls.search.value)
+      if(this.buscar.invalid){
+        return;
+      }else{
+        this.productoServie.getProductosReg(this.buscar.controls.search.value)
       .subscribe(({productos})=>{
         this.productos=productos;
       });   
       this.render.setStyle(document.getElementById('show'), 'display', 'block');
+      }
+      
     }else if(event.which==8){
       this.productos=[];
       this.render.setStyle(document.getElementById('show'), 'display', 'none');

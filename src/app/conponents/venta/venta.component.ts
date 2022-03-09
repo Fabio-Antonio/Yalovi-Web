@@ -8,6 +8,8 @@ import {Observable} from 'rxjs';
 import Swal from 'sweetalert2';
 import { delay } from 'rxjs/operators';
 import { ContadorService } from 'src/app/services/contador.service';
+import { VerificationService } from 'src/app/services/verification.service';
+import { Verification } from 'src/app/Models/varification';
 
 declare function tokenizador();
 @Component({
@@ -29,6 +31,7 @@ fecha = new Date();
 public formSubmitted=false;
 
 envios:boolean=true;
+verificacion: Verification = null;
 
   compra=this.fb.group({
   nombre:['',[Validators.required,Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
@@ -57,7 +60,9 @@ envios:boolean=true;
  
 @Input() tokenizar: string ="aqui va el token";
 
-constructor(private router:Router, private fb:FormBuilder, private pedidosServices : PedidosService, private ngZone : NgZone, private contadorService: ContadorService  ) 
+constructor(private router:Router, private fb:FormBuilder, private pedidosServices : PedidosService, private ngZone : NgZone, 
+  private contadorService: ContadorService,
+  private verificationService : VerificationService  ) 
 {
   
   
@@ -143,31 +148,26 @@ onRegister(){
    return;
  }
 
-
- this.pedidosServices.agregarVenta(this.compra.value).subscribe(({mensaje,pago,correo})=>{
-  this.preloader2=false;
+ this.verificacion= new Verification(this.compra.get('token').value,this.compra.get('email').value,this.getverificationNumber,false);
+ this.verificationService.sendVerificationEmail(this.verificacion).subscribe((mensaje)=>{
   Swal.fire({
     allowOutsideClick: false,
     icon: 'success',
-    title: mensaje+" pago status:"+pago+". Correo:"+correo,
+    title: mensaje.mensaje,
     confirmButtonText: `ok`,
   }).then((result) => {
     /* Read more about isConfirmed, isDenied below */
     if (result.isConfirmed) {
-      localStorage.setItem("token","");
-      localStorage.setItem("productos","");
-      localStorage.setItem("tk","");
-      this.preloader2=false;
-     window.location.href="";
+      this.validateEmail(this.verificacion.token)
     }
   })
- 
-}, (err) =>  Swal.fire('Error', err.error.msg, 'error').then(values =>{
-  this.preloader2=false;
-  this.compra.patchValue({
-    terminos:false,
-  });
-})) ;
+ },(err) =>  Swal.fire('Error', err.error.msg, 'error').then(values =>{
+    this.preloader2=false;
+    this.compra.patchValue({
+      terminos:false,
+    });
+  }))
+
 
 }
 
@@ -221,6 +221,10 @@ validateFormat(event) {
    return this.fecha.toDateString();
   }
 
+  get getverificationNumber (): number{
+    return Math.floor(1000 + Math.random() * 9000);
+  }
+
   borrarPedido(uid:string){
     Swal.fire({
       title: 'Esta a punto de borrar este producto, ¿Deseas continuar?',
@@ -260,4 +264,71 @@ condiciones(){
   })
 }
 
+validateEmail(token:string){
+  Swal.fire({
+    allowOutsideClick: false,
+    title: 'Verifique su correo electrónico',
+    html: `<input type="text" id="verifyCode" class="swal2-input" placeholder="Ingrese el código de verificación">
+    `,
+    confirmButtonText: 'Continuar',
+    focusConfirm: false,
+    preConfirm: () => {
+      const verifyCode = Swal.getPopup().querySelector('#verifyCode')as HTMLInputElement
+      if (!verifyCode.value) {
+        Swal.showValidationMessage(`Por favor ingrese un código de verificación`)
+      }
+      return { verifyCode: verifyCode.value }
+    }
+  }).then((result) => {
+    this.sendValidationNumber(token,+result.value.verifyCode)
+  })
 }
+
+finalizarVenta(){
+  this.pedidosServices.agregarVenta(this.compra.value).subscribe(({mensaje,pago,correo})=>{
+    this.preloader2=false;
+    Swal.fire({
+      allowOutsideClick: false,
+      icon: 'success',
+      title: mensaje+" pago status:"+pago+". Correo:"+correo,
+      confirmButtonText: `ok`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        localStorage.setItem("token","");
+        localStorage.setItem("productos","");
+        localStorage.setItem("tk","");
+        this.preloader2=false;
+       window.location.href="";
+      }
+    })
+   
+  }, (err) =>  Swal.fire('Error', err.error.msg, 'error').then(values =>{
+    this.preloader2=false;
+    this.compra.patchValue({
+      terminos:false,
+    });
+  })) ;
+}
+sendValidationNumber(token:string,numero:number){
+  this.verificationService.sendNumberVerification(token,numero).subscribe((mensaje) =>{
+    Swal.fire({
+      allowOutsideClick: false,
+      icon: 'success',
+      title: mensaje.mensaje,
+      confirmButtonText: `ok`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.finalizarVenta()
+      }
+    })
+   },(err) =>  Swal.fire('Error', err.error.msg, 'error').then(values =>{
+      this.preloader2=false;
+      this.compra.patchValue({
+        terminos:false,
+      });
+    }))
+}
+}
+

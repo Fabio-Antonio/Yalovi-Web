@@ -25,21 +25,7 @@ private contactCollection: AngularFireList<any>;
       })
     }
 
-   /* saveventa(venta: ventai) {
-      this.contactCollection=this.GetventaList();
-      this.contactCollection.push({
-        email: venta.email,
-        nombre: venta.nombre,
-        direccion: venta.direccion,
-        celular: venta.celular,
-        referencia: venta.referencia,
-        pedido: venta.pedido
-        
-      })
-    }*/
-
-
-
+   
       GetUsersList() {
         this.contactCollection = this.afs.list('users-list');
         console.log(this.contactCollection);
