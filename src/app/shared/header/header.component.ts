@@ -71,10 +71,11 @@ buscar: FormGroup;
 
 
   busqueda(){
+    console.log('primer busqueda');
     if(this.buscar.invalid){
       return;
     }
-
+    console.log('formato válido');
   this.productoServie.buscar(this.buscar.value);
   }
 

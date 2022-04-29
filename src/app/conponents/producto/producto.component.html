@@ -106,7 +106,7 @@
                 
                 <select class="form-select" formControlName="color">
                   <option value="Indistinto" disabled>Colores disponibles</option>
-                  <option *ngFor="let color of Colores" value="{{color.color}}">{{color.color}}</option>
+                  <option *ngFor="let color of Colores" value="{{color.color}}">{{color.name}}</option>
                 </select>
                 <div class="invalid-feedback">
                   Opción inválida.

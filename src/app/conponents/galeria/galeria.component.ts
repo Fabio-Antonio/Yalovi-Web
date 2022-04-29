@@ -16,6 +16,7 @@ export class GaleriaComponent implements OnInit {
   constructor(private route:Router,private  activateRoute: ActivatedRoute, private productoService :ProductosService) { }
 
   ngOnInit(): void {
+    console.log('parametros', this.activateRoute.params);
    this.activateRoute.params.subscribe(({uid})=>this.getProductos(uid));
    
   }
@@ -26,14 +27,14 @@ export class GaleriaComponent implements OnInit {
   
    
  getProductos(uid: string){
-
+ console.log('si llega al llamado del servicio'); 
   this.productoService.getProductosReg(uid)
   .subscribe(({productos})=>{
     this.productos=productos;
     this.preloader = false;
   }); 
 
-  if(this.productos=[]){
+  if(!this.productos){
     this.productoService.getProductosSub(uid).subscribe(({productos})=>{
       this.productos = productos;
       this.preloader = false;
