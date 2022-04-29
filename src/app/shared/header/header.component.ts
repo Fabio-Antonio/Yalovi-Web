@@ -74,7 +74,6 @@ buscar: FormGroup;
     if(this.buscar.invalid){
       return;
     }
-
   this.productoServie.buscar(this.buscar.value);
   }
 

@@ -14,8 +14,8 @@ export const environment = {
     appId: "1:223995574229:web:320b677b9f52ded2602f5c",
     measurementId: "G-WWNN8THLHZ"
   },
-  base_url:'https://backend-server-4ixr0kmf2-fabio-antonio.vercel.app/api'
-  //base_url:'http://192.168.0.179:3000'
+  //base_url:'https://backend-server-4ixr0kmf2-fabio-antonio.vercel.app/api'
+  base_url:'http://192.168.0.179:3000/api'
 };
 
 

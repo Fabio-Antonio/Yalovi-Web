@@ -1,7 +1,7 @@
 export class Color{
-    constructor(
-        public uid :string,
-        public color :string
+        constructor(
+        public name :string,
+        public code :string
     ){
 
     }
