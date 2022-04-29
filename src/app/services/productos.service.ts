@@ -175,12 +175,10 @@ getProducto(uid:string){
       const caracteristicas = resp.caracteristicas.filter(resp => resp != null).map(
         p2 => new Caracteristica(p2.uid_caracteristica,p2.uid_producto,p2.caracteristica), 
       )
-      let  i= 0;
       const colores = resp.colores.filter(resp => resp != null).map(
        pp3=> new Color(pp3[0].name,pp3[0].code)
        ,                     
       )
-      console.info(colores);
       const { url_imagen,nombre_producto,precio,descuento,uid,sub_categoria,marca,segunda_mano} = resp.producto;
       this.producto = new Producto(uid,sub_categoria,nombre_producto,precio,marca,url_imagen,segunda_mano,descuento);
       const pro = this.producto;

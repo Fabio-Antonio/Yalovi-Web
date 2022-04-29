@@ -27,7 +27,6 @@ export class GaleriaComponent implements OnInit {
   
    
  getProductos(uid: string){
- console.log('si llega al llamado del servicio'); 
   this.productoService.getProductosReg(uid)
   .subscribe(({productos})=>{
     this.productos=productos;

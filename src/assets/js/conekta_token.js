@@ -13,7 +13,6 @@
       "cvc": $('#cccvv').val()
     }
   }; 
-  console.log(data);
   var successHandler = function(token){
       /* token keys: id, livemode, used, object */
       
